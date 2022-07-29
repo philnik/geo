@@ -13,7 +13,7 @@ Simulation
   Steady State Max Iterations = 20
   Output Intervals(1) = 1
   Solver Input File = circle.sif
-  Post File = c2.vtu
+  Post File = cviscous.vtu
 End
 
 Constants
@@ -89,7 +89,7 @@ Material 1
   Heat Conductivity = 0.0257
   Heat expansion Coefficient = 3.43e-3
   Density = 1.205
-  Viscosity = 1.983e-2
+  Viscosity = 1.983e-5
   Reference Pressure = 2
   Heat Capacity = 1005.0
   Relative Permittivity = 1.00059
