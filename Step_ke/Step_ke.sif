@@ -15,7 +15,7 @@ Simulation
   Output Intervals = 10
 
 ! Output File = "Step_small.result"
-  Post File = "Step9.vtu"
+  Post File = "Step91.vtu"
 End
 
 
@@ -94,7 +94,7 @@ Material 1
 !  Compressibility Model = String "Perfect Gas"
   Reference Temperature = 300
   Density = 1.0
-  Viscosity = $1/19000.0
+  Viscosity = 1e-5
   Density = 1
   Reference Pressure = 100
 
@@ -121,9 +121,9 @@ Boundary Condition 1
   Velocity 1 = Variable Coordinate 2
       Real
         1.0 $ bndry_layer^2
-	1.25 2.5
-        1.5 5.0
-	1.75 2.5
+	1.25 2.0
+        1.5 4.0
+	1.75 2.0
         2.0 $ bndry_layer^2
       End
 
