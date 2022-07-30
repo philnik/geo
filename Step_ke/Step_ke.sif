@@ -12,10 +12,10 @@ Simulation
   Simulation Type = Steady
 
   Steady State Max Iterations  = 20000
-  Output Intervals = 1
+  Output Intervals = 10
 
 ! Output File = "Step_small.result"
-  Post File = "Step2.vtu"
+  Post File = "Step9.vtu"
 End
 
 
@@ -58,7 +58,7 @@ Solver 1
   Nonlinear System Relaxation Factor = 0.75
 
   Linear System Solver = Iterative
-  Linear System Max Iterations = 100000000
+  Linear System Max Iterations = 10000000
   Linear System Iterative Method = BiCGStab
   Linear System Preconditioning = ILU3
   Linear System Convergence Tolerance = 1.0e-7
@@ -70,14 +70,14 @@ Solver 2
   Equation = Navier-Stokes
 
   Stabilization Method = String Bubbles
-  Nonlinear System Max Iterations = 10
+  Nonlinear System Max Iterations = 1
   Nonlinear System Convergence Tolerance = 1.0e-5
   Nonlinear System Newton After Iterations = 10
   Nonlinear System Newton After Tolerance  = 1.0e-2
   Nonlinear System Relaxation Factor = 0.75
 
   Linear System Solver = Iterative
-  Linear System Max Iterations = 100000000
+  Linear System Max Iterations = 1000000000
   Linear System Iterative Method = BiCGStab
   Linear System Preconditioning = ILU2
   Linear System Convergence Tolerance = 1.0e-7
@@ -86,12 +86,22 @@ Solver 2
 End
 
 
+
 Equation 1 :: Active Solvers(2) = 1 2
 
 
 Material 1
+!  Compressibility Model = String "Perfect Gas"
+  Reference Temperature = 300
+  Density = 1.0
   Viscosity = $1/19000.0
   Density = 1
+  Reference Pressure = 10
+
+  Specific Heat Ratio = 1.4
+  Heat Conductivity = 0.026
+  Heat Capacity = 1.01e3
+
   KE SigmaK = 1.00
   KE SigmaE = 1.30
   KE C1     = 1.44
@@ -110,15 +120,11 @@ Boundary Condition 1
 
   Velocity 1 = Variable Coordinate 2
       Real
-        1.0000 $ bndry_layer^2
-        100 0.4375
-        200 0.7500
-        300 0.9375
-        400 1.0000
-        500 0.9375
-        600 0.7500
-        700 0.4375
-        800 $ bndry_layer^2
+        1.0 $ bndry_layer^2
+	1.1 0.1
+        1.5 14.0
+	1.9 0.1
+        2.0 $ bndry_layer^2
       End
 
    Velocity 2 = 0
@@ -150,6 +156,5 @@ End
 
 
 Solver 2 :: Reference Norm = Real 0.23583018
-Solver 2 :: Reference N
-orm Tolerance = Real 1.0e-3
+Solver 2 :: Reference Norm Tolerance = Real 1.0e-3
 RUN
