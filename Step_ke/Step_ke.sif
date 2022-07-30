@@ -72,7 +72,7 @@ Solver 2
   Stabilization Method = String Bubbles
   Nonlinear System Max Iterations = 1
   Nonlinear System Convergence Tolerance = 1.0e-5
-  Nonlinear System Newton After Iterations = 10
+  Nonlinear System Newton After Iterations = 50
   Nonlinear System Newton After Tolerance  = 1.0e-2
   Nonlinear System Relaxation Factor = 0.75
 
@@ -96,7 +96,7 @@ Material 1
   Density = 1.0
   Viscosity = $1/19000.0
   Density = 1
-  Reference Pressure = 10
+  Reference Pressure = 100
 
   Specific Heat Ratio = 1.4
   Heat Conductivity = 0.026
@@ -121,9 +121,9 @@ Boundary Condition 1
   Velocity 1 = Variable Coordinate 2
       Real
         1.0 $ bndry_layer^2
-	1.1 0.1
-        1.5 14.0
-	1.9 0.1
+	1.25 2.5
+        1.5 5.0
+	1.75 2.5
         2.0 $ bndry_layer^2
       End
 
