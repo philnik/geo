@@ -83,7 +83,7 @@ End
 Boundary Condition 1
   Target Boundaries(3) = 2 4 5 
   Name = "walls"
-  Noslip wall BC = True
+  Noslip wall BC = Logical False
 End
 
 Boundary Condition 2
