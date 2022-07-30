@@ -47,7 +47,7 @@ Solver 1
   Nonlinear System Relaxation Factor = 1
   Linear System Solver = Iterative
   Linear System Iterative Method = BiCGStab
-  Linear System Max Iterations = 5000
+  Linear System Max Iterations = 500000
   Linear System Convergence Tolerance = 1.0e-10
   BiCGstabl polynomial degree = 2
   Linear System Preconditioning = ILU0
@@ -81,9 +81,9 @@ End
 
 
 Boundary Condition 1
-  Target Boundaries(3) = 2 4 5 
+  Target Boundaries(3) = 2 4 100 
   Name = "walls"
-  Noslip wall BC = Logical False
+  Noslip wall BC = Logical True
 End
 
 Boundary Condition 2
@@ -92,7 +92,12 @@ Boundary Condition 2
 !  Normal-Tangential Velocity = True
   Velocity 2 = 0
 !  Velocity 3 = 0
-  Velocity 1 = 12.0
+  Velocity 1 = Variable Coordinate 2
+  Real
+  0.0 0.0
+  0.5 12.0
+  1.0 0.0
+  End	
 End
 
 Boundary Condition 3
