@@ -1,0 +1,143 @@
+Header
+  CHECK KEYWORDS Warn
+  Mesh DB "./check-circle-2d/" "."
+  Include Path ""
+  Results Directory ""
+End
+
+Simulation
+  Max Output Level = 50
+  Coordinate System = Cartesian 2D
+  Coordinate Mapping(3) = 1 2 3
+  Simulation Type = Steady
+  Steady State Max Iterations = 50
+  Output Intervals(1) = 1
+  Solver Input File = case.sif
+  Post File = case.vtu
+End
+
+Constants
+  Gravity(4) = 0 -1 0 9.82
+  Stefan Boltzmann = 5.670374419e-08
+  Permittivity of Vacuum = 8.85418781e-12
+  Permeability of Vacuum = 1.25663706e-6
+  Boltzmann Constant = 1.380649e-23
+  Unit Charge = 1.6021766e-19
+End
+
+Body 1
+  Target Bodies(1) = 1
+  Name = "Body 1"
+  Equation = 1
+  Material = 1
+End
+
+
+
+Solver 1
+  Equation = Kepsilon
+  Procedure = "KESolver" "KESolver"
+  Stabilization Method = String Bubbles
+  Nonlinear System Max Iterations = 1
+  Nonlinear System Convergence Tolerance = 1.0e-5
+  Nonlinear System Newton After Iterations = 20
+  Nonlinear System Newton After Tolerance = 1.0e-3
+  Nonlinear System Relaxation Factor = 0.75
+  Linear System Solver = Iterative
+  Linear System Max Iterations = 1000
+  Linear System Iterative Method = BiCGStab
+  Linear System Preconditioning = ILU3
+  Linear System Convergence Tolerance = 1.0e-7
+
+  Steady State Convergence Tolerance = 1.0e-5
+End
+
+
+Solver 2
+  Equation = Navier-Stokes
+
+  Stabilization Method = String Bubbles
+  Nonlinear System Max Iterations = 1
+  Nonlinear System Convergence Tolerance = 1.0e-5
+  Nonlinear System Newton After Iterations = 10
+  Nonlinear System Newton After Tolerance  = 1.0e-2
+  Nonlinear System Relaxation Factor = 0.75
+
+  Linear System Solver = Iterative
+  Linear System Max Iterations = 1000
+  Linear System Iterative Method = BiCGStab
+  Linear System Preconditioning = ILU2
+  Linear System Convergence Tolerance = 1.0e-7
+
+  Steady State Convergence Tolerance = 1.0e-5
+End
+
+
+
+Equation 1
+  Name = "Equation 1"
+  Active Solvers(2) = 1 2
+End
+
+Material 1
+  Compressibility Model = String "Perfect Gas"
+  Reference Pressure = 100.0
+  Reference Temperature = 300
+  Density = 1.0
+  Specific Heat Ratio = 1.4
+! Viscosity = 1.81e-2
+  Heat Conductivity = 0.026
+  Heat Capacity = 1.01e3
+  Viscosity = 1e-3
+  Density = 1
+  KE SigmaK = 1.00
+  KE SigmaE = 1.30
+  KE C1     = 1.44
+  KE C2     = 1.92
+  KE Cmu    = 0.09
+  KE Clip   = Real 1.0e-6
+  Viscosity Model = ke
+End
+
+
+Initial Condition 1
+  Temperature = 300
+  Velocity 2 = 0
+  Velocity 1 = 1
+  Kinetic Energy = 0.003
+  Kinetic Dissipation = 0.0001
+End
+
+
+
+Boundary Condition 1
+  Target Boundaries(3) = 2 4 100 
+  Name = "walls"
+  Noslip wall BC = Logical True
+End
+
+Boundary Condition 2
+  Target Boundaries(1) = 1 
+  Name = "inlet"
+!  Normal-Tangential Velocity = True
+  Velocity 2 = 0
+!  Velocity 3 = 0
+  Velocity 1 = Variable Coordinate 2
+  Real
+  0.0 0.0
+  0.5 60.0
+  1.0 0.0
+  End
+  
+  Kinetic Energy = Real 0.003
+  Kinetic Dissipation = Real 0.001
+
+End
+
+Boundary Condition 3
+  Target Boundaries(1) = 3 
+  Name = "outlet"
+!  Normal-Tangential Velocity = True
+  Velocity 3 = 0
+  Velocity 2 = 0
+End
