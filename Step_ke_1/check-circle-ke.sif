@@ -1,4 +1,4 @@
-$ bndry_layer = 0.05
+$ bndry_layer = 0.1
 
 Header
   Mesh DB "." "check-circle-ke"
@@ -96,7 +96,7 @@ Material 1
   Density = 1.0
   Viscosity = 1e-5
   Density = 1
-  Reference Pressure = 100
+  Reference Pressure = 1
 
   Specific Heat Ratio = 1.4
   Heat Conductivity = 0.026
@@ -135,7 +135,7 @@ End
 
 
 Boundary Condition 2
-  Target Boundaries(3) = 2 4 100
+  Target Boundaries(2) = 2 4 
   Name = "Walls x"
 
   Velocity 2 = 0
@@ -143,6 +143,18 @@ Boundary Condition 2
   Wall Law = True
   Boundary Layer Thickness =  $bndry_layer
 End
+
+
+Boundary Condition 20
+  Target Boundaries(1) = 100 
+  Name = "Walls 2"
+
+  Velocity 2 = 0
+  Velocity 1 = 0
+End
+
+
+
 
 Boundary Condition 3
   Target Boundaries(1) = 3

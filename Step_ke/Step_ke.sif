@@ -15,7 +15,7 @@ Simulation
   Output Intervals = 10
 
 ! Output File = "Step_small.result"
-  Post File = "Step91.vtu"
+  Post File = "Step92.vtu"
 End
 
 
@@ -121,9 +121,9 @@ Boundary Condition 1
   Velocity 1 = Variable Coordinate 2
       Real
         1.0 $ bndry_layer^2
-	1.25 2.0
-        1.5 4.0
-	1.75 2.0
+	1.25 3.0
+        1.5 6.0
+	1.75 3.0
         2.0 $ bndry_layer^2
       End
 
