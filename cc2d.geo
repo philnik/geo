@@ -73,3 +73,6 @@ Physical Surface(1) = {14};
 /* Mesh.MeshSizeFromCurvature = 0; */
 
 Mesh.Algorithm = 6;
+
+Mesh.MeshSizeMax = 0.04;
+
