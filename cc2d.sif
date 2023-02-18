@@ -1,8 +1,8 @@
 Header
   CHECK KEYWORDS Warn
-  Mesh DB "./check-circle-2d/" "."
+  Mesh DB "./cc2d/" "."
   Include Path ""
-  Results Directory ""
+  Results Directory "resu"
 End
 
 Simulation
@@ -12,8 +12,8 @@ Simulation
   Simulation Type = Steady
   Steady State Max Iterations = 20
   Output Intervals(1) = 1
-  Solver Input File = case.sif
-  Post File = case-02.vtu
+  Solver Input File = cc2d.sif
+  Post File = cc2d_01.vtu
 End
 
 Constants
@@ -68,7 +68,7 @@ Material 1
   Reference Temperature = 300
   Density = 1.0
   Specific Heat Ratio = 1.4
-  Viscosity = 1.81e-2
+  Viscosity = 1.81e-5
   Heat Conductivity = 0.026
   Heat Capacity = 1.01e3
 End
@@ -81,7 +81,7 @@ End
 
 
 Boundary Condition 1
-  Target Boundaries(3) = 2 4 100 
+  Target Boundaries(3) = 2 4 5
   Name = "walls"
   Noslip wall BC = Logical True
 End
@@ -95,7 +95,7 @@ Boundary Condition 2
   Velocity 1 = Variable Coordinate 2
   Real
   0.0 0.0
-  0.5 100.0
+  0.5 1.0
   1.0 0.0
   End	
 End
