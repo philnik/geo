@@ -2,7 +2,11 @@ Header
   CHECK KEYWORDS Warn
   Mesh DB "./cc2d/" "."
   Include Path ""
-  Results Directory "resu"
+      Results Directory "resu"
+$ ee=1.5e-13
+$ dd=1.37e-13
+     $ ww=0.00001
+      $tol=5.0e-4
 End
 
 Simulation
@@ -18,14 +22,14 @@ Simulation
   Timestep Sizes = 0.1
   Output Intervals = 1
   Solver Input File = cc2d_transient.sif
-  Post File = cc2d_transient_06.vtu
+  Post File = ke_01.vtu
 End
+
 
 Constants
   Gravity(4) = 0 -1 0 9.82
   Stefan Boltzmann = 5.670374419e-08
   Permittivity of Vacuum = 8.85418781e-12
-  Permeability of Vacuum = 1.25663706e-6
   Boltzmann Constant = 1.380649e-23
   Unit Charge = 1.6021766e-19
 End
@@ -34,13 +38,14 @@ Body 1
   Target Bodies(1) = 1
   Name = "Body 1"
   Equation = 1
-  Material = 1
+      Material = 1
+      Initial Condition = 1
 End
 
       
 Equation 1
   Name = "Equation 1"
-  Active Solvers(1) = 1
+  Active Solvers(2) = 1 2
 End
 
 
@@ -54,10 +59,10 @@ Solver 1
   Optimize Bandwidth = True
   Steady State Convergence Tolerance = 1.0e-5
   Nonlinear System Convergence Tolerance = 1.0e-7
-  Nonlinear System Max Iterations = 20
-  Nonlinear System Newton After Iterations = 20
+  Nonlinear System Max Iterations = 4
+  Nonlinear System Newton After Iterations = 3
   Nonlinear System Newton After Tolerance = 1.0e-3
-  Nonlinear System Relaxation Factor = 1
+  Nonlinear System Relaxation Factor = 0.5
   Linear System Solver = Iterative
   Linear System Iterative Method = BiCGStab
   Linear System Max Iterations = 500000
@@ -71,41 +76,84 @@ Solver 1
 End
 
 
+
+Solver 2
+  Equation = Kepsilon
+  Procedure = "KESolver" "KESolver"
+
+! This keyword activate the e/k auxiary variable as in Kuzmin and Mierka. 
+! This should make the numerical system better behaving.
+  Use KE ratio = Logical True
+
+! We still use bubbles. FCT testing is the natural next step. 
+  Stabilization Method = String Bubbles
+  Nonlinear System Max Iterations = 2
+  Nonlinear System Convergence Tolerance = 1.0e-5
+  Nonlinear System Relaxation Factor = 0.75 
+
+  Linear System Solver = Iterative
+  Linear System Max Iterations = 1000
+  Linear System Iterative Method = BiCGStabL
+  Linear System Preconditioning = ILU2
+  Linear System Convergence Tolerance = 1.0e-9
+
+  Steady State Convergence Tolerance = 1.0e-5
+! We have introduced new control on pseudo-transient level.
+  Transient Convergence Measure = String "solution"
+  Transient Convergence Tolerance = Real 0.003
+End
+
       
 Material 1
-  Compressibility Model = String "Perfect Gas"
-  Reference Pressure = 100.0
-  Reference Temperature = 300
+  Name = "Water (room temperature)"
+  Heat expansion Coefficient = 0.207e-3
   Density = 1.0
-  Specific Heat Ratio = 1.4
-  Viscosity = 1.81e-2
-  Heat Conductivity = 0.026
-  Heat Capacity = 1.01e3
+  Compressibility Model = Incompressible
+  Heat Capacity = 4183.0
+  Sound speed = 1497.0
+  Heat Conductivity = 0.58
+!  Relative Permittivity = 1
+  Viscosity = 1.002e-2
 End
+
+
 
 
 Initial Condition 1
-  Temperature = 300
+  Name = "InitialCondition 1"
+  Velocity 1 = 0
+  Pressure = 0
+  Velocity 3 = 0
+  Kinetic Energy = $ee
+  Velocity 2 = 0
+  Kinetic Dissipation = $dd
 End
-
-
+      
 
 Boundary Condition 1
   Target Boundaries(3) = 2 4 5
   Name = "walls"
   Noslip wall BC = Logical True
+!  Velocity 1 = 0
+!  Velocity 3 = 0
+!  Boundary Layer Thickness = 0.005
+!  Velocity 2 = 0
+!  Wall Law = True
 End
 
 Boundary Condition 2
-  Target Boundaries(1) = 1 
-  Name = "inlet"
+      Target Boundaries(1) = 1 
+      Name = "inlet"
+      Kinetic Dissipation = $dd
+      Kinetic Energy = $ee
+  
 !  Normal-Tangential Velocity = True
   Velocity 2 = 0
   Velocity 3 = 0
 !  Velocity 1 = Variable Time
 !     Real Procedure "fsi" "inflow"
   Velocity 1 = Variable Time,Coordinate 2
-      Real MATC "tx(0)*(4-tx(1))*tx(1)"
+      Real MATC "tx(0)*0.0001*(4-tx(1))*tx(1)"
 End
 
 Boundary Condition 3
