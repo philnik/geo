@@ -18,8 +18,8 @@ Simulation
   Steady State Max Iterations = 50
   Steady State Min Iterations = 10
   Timestepping Method = "BDF"
-  Timestep Intervals= 1000 
-  Timestep Sizes = 0.1
+  Timestep Intervals= 10000 
+  Timestep Sizes = 0.01
   Output Intervals = 1
   Solver Input File = cc2d_transient.sif
   Post File = ke_01.vtu
@@ -153,7 +153,7 @@ Boundary Condition 2
 !  Velocity 1 = Variable Time
 !     Real Procedure "fsi" "inflow"
   Velocity 1 = Variable Time,Coordinate 2
-      Real MATC "tx(0)*0.0001*(4-tx(1))*tx(1)"
+      Real MATC "tx(0)*(1-tx(1))*tx(1)"
 End
 
 Boundary Condition 3
